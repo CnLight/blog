@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>登录页面</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link th:href="@{/css/signin.css}" rel="stylesheet">
+
+</head>
+
+<body class="text-center">
+<form class="form-signin" th:action="@{/user/login}" method="post">
+    <img class="mb-4" th:src="@{/img/featureimages/6.jpg}" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">登录</h1>
+    <h2 th:text="${msg}"></h2>
+    <label class="sr-only">用户名</label>
+    <input name="user_name" type="text" class="form-control" placeholder="用户名" required="" autofocus="">
+    <label class="sr-only">密码</label>
+    <input name="user_pwd" type="password" class="form-control" placeholder="密码" required="">
+    <div class="checkbox mb-3">
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+    <p class="mt-5 mb-3 text-muted">© 2020-2021</p>
+    <a class="btn btn-sm">中文</a>
+</form>
+
+</body>
+
+</html>

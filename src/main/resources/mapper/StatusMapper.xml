@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wl.blog.dao.StatusMapper">
+    <select id="findStatusById" resultType="string" parameterType="int">
+        select Status_Desc as StatusDesc,from blog_status
+        <where>
+            Status_Id = #{StatusId}
+        </where>
+    </select>
+</mapper>

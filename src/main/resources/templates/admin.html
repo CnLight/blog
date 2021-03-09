@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" th:href="@{/img/icons/icon-48x48.png}"/>
+
+    <title>Blog后台管理</title>
+
+    <link th:href="@{/css/app.css}" rel="stylesheet">
+</head>
+
+<body>
+<div class="wrapper">
+    <nav id="sidebar" class="sidebar" th:fragment="sidebar">
+        <div class="sidebar-content js-simplebar">
+            <a class="sidebar-brand" th:href="@{/admin}">
+                <span class="align-middle">Blog后台管理</span>
+            </a>
+
+            <ul class="sidebar-nav">
+                <li class="sidebar-header">
+                    相关设置
+                </li>
+
+                <li class="sidebar-item active">
+                    <a class="sidebar-link" th:href="@{/index}">
+                        <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">跳转前台</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" th:href="@{/user/dealUser}">
+                        <i class="align-middle" data-feather="user"></i> <span class="align-middle">用户</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <!--   <a class="sidebar-link" th:href="@{/article/addArticle}
+                           ">-->
+                    <a href="#ui" data-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle" data-feather="briefcase"></i> <span class="align-middle">文章管理</span>
+                    </a>
+
+
+                </li>
+                <li class="sidebar-header">
+                    其他设置
+                </li>
+                <li class="sidebar-item">
+                    <a href="#ui" data-toggle="collapse" class="sidebar-link collapsed">
+                        <i class="align-middle" data-feather="briefcase"></i> <span class="align-middle">文章</span>
+                    </a>
+                    <ul id="ui" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+                        <li class="sidebar-item"><a class="sidebar-link" th:href="@{/article/findAllAticles}">文章总览</a>
+                        </li>
+                        <li class="sidebar-item"><a class="sidebar-link" th:href="@{/article/addArticle}">文章编辑</a></li>
+
+                    </ul>
+                </li>
+    </nav>
+
+    <div class="main">
+        <nav class="navbar navbar-expand navbar-light navbar-bg" th:fragment="top">
+            <a class="sidebar-toggle d-flex">
+                <i class="hamburger align-self-center"></i>
+            </a>
+            <!--search搜索框-->
+            <form class="form-inline d-none d-sm-inline-block">
+                <div class="input-group input-group-navbar">
+                    <input type="text" class="form-control" placeholder="Search…" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn" type="button">
+                            <i class="align-middle" data-feather="search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <!--关闭导航栏-->
+            <div class="navbar-collapse collapse">
+                <ul class="navbar-nav navbar-align">
+                    <li class="nav-item dropdown">
+                        <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-toggle="dropdown">
+                            <div class="position-relative">
+                                <i class="align-middle" data-feather="bell"></i>
+                                <span class="indicator">4</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-toggle="dropdown">
+                            <div class="position-relative">
+                                <i class="align-middle" data-feather="message-square"></i>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-toggle="dropdown">
+                            <i class="align-middle" data-feather="settings"></i>
+                        </a>
+
+                        <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-toggle="dropdown">
+                            <img th:src="@{/img/avatars/avatar.jpg}" class="avatar img-fluid rounded mr-1"
+                                 alt="Charles Hall"/> <span class="text-dark"
+                                                            th:text="${session.blogUser}? ${session.blogUser.getUser_name()}:''"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" th:href="@{/user/toLogin}"><i class="align-middle mr-1"
+                                                                                   data-feather="user"></i> 登录</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" th:href="@{/user/help}"><i class="align-middle mr-1"
+                                                                                data-feather="help-circle"></i>帮助中心</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" th:href="@{/user/logout}">退出登录</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="content">
+            <div class="container-fluid p-0">
+
+                <div class="row mb-2 mb-xl-3">
+                    <div class="col-auto d-none d-sm-block">
+                        <h3><strong> 数据监控</strong></h3>
+                    </div>
+
+                    <div class="col-auto ml-auto text-right mt-n1">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
+                                <li class="breadcrumb-item"><a href="#">用户</a></li>
+                                <li class="breadcrumb-item"><a href="#">文章数</a></li>
+                                <li class="breadcrumb-item active" aria-current="page"><a href="#">跳转前台</a></li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6 col-xxl-5 d-flex">
+                        <div class="w-100">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-4">用户人数</h5>
+                                            <h1 class="display-5 mt-1 mb-3" th:text="${userNum}"></h1>
+                                            <div class="mb-1">
+                                                <span class="text-muted" th:text="${currentDate}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-4">访问量</h5>
+                                            <h1 class="display-5 mt-1 mb-3">14</h1>
+                                            <div class="mb-1">
+                                                <span class="text-muted" th:text="${currentDate}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-4">文章数</h5>
+                                            <h1 class="display-5 mt-1 mb-3">100</h1>
+                                            <div class="mb-1">
+                                                <span class="text-muted" th:text="${currentDate}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-4">广告量</h5>
+                                            <h1 class="display-5 mt-1 mb-3">300</h1>
+                                            <div class="mb-1">
+                                                <span class="text-muted" th:text="${currentDate}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <footer class="footer" th:fragment="footer">
+                    <div class="container-fluid">
+                        <div class="row text-muted">
+                            <div class="col-6 text-left">
+                                <p class="mb-0">
+                                    <a href="index.html" class="text-muted"><strong>后台管理系统</strong></a> &copy;
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+
+            <script th:src="@{/js/vendor.js}"></script>
+            <script th:src="@{/js/app.js}"></script>
+
+
+</body>
+</html>

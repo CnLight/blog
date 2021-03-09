@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wl.blog.dao.PictureMapper">
+    <select id="findAllPictures" resultType="com.wl.blog.pojo.Picture">
+        select ba.Picture_RowId as PictureRowId,
+        ba.Picture_Path as PicturePath
+        from blog_picture ba
+    </select>
+    <select id="findPictureByPath" resultType="int" parameterType="com.wl.blog.pojo.Picture">
+        select Picture_RowId as PictureRowId from blog_picture where Picture_Path = #{PicturePath}
+    </select>
+
+    <select id="findPictureById" resultType="com.wl.blog.pojo.Picture" parameterType="int">
+        select Picture_RowId as PictureRowId,
+        Picture_Path as PicturePath
+        from blog_picture where Picture_RowId = #{PictureRowId}
+    </select>
+
+    <insert id="addPicture" parameterType="com.wl.blog.pojo.Picture" useGeneratedKeys="true" keyProperty="PictureRowId">
+        insert into blog_picture(Picture_Path) values (#{PicturePath});
+    </insert>
+</mapper>

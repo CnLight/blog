@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{link :: headLink}"></div>
+<body>
+<div th:replace="header :: header1"></div>
+
+<article class="main-content page-page" itemscope="" itemtype="http://schema.org/Article">
+    <br/>
+    <div class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            <div th:text="${blogArticle.getArticleName()}"></div>
+        </h1>
+    </div>
+    <div id="post-content" class="post-content" itemprop="articleBody">
+        <th:block th:utext="${blogArticle.articleContent}"/>
+        <p class="post-info">
+            本站文章除注明转载/出处外，均为本站原创或翻译，转载前请务必署名,转载请标明出处<br/>最后编辑时间为:
+        <div>[[${blogArticle.ArticleUpdateTime}]]</div>
+        </p>
+
+    </div>
+</article>
+
+
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/vendor/jquery.cookie/jquery.cookie.js}"></script>
+<script th:src="@{/vendor/fancyapp/jquery.fancybox.min.js}"></script>
+<script th:src="@{/js/front.js}"></script>
+</body>
+</html>

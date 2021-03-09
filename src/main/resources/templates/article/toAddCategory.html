@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>更新用户</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+
+<body>
+<div class="col-12 col-xl-6">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">更新目录信息</h5>
+            <h6 class="card-subtitle text-muted">基本布局.</h6>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/article/toAddCatalog}" method="post">
+                <div class="form-group">
+                    <label class="form-label">文章编码</label>
+                    <input name="user_name" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">名称</label>
+                    <input name="user_email" type="text" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">提交</button>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+<script th:src="@{/js/vendor.js}"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

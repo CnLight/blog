@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wl.blog.dao.ArticleMapper">
+    <select id="findAllArticles" resultType="com.wl.blog.pojo.BlogArticle">
+        select ba.Article_Id as ArticleId,
+        ba.Article_Code as ArticleCode,
+        ba.Article_Name as ArticleName,
+        ba.Article_Category_Id as ArticleCategoryId,
+        ba.Article_Picture_Id as ArticlePictureId,
+        ba.Article_Content as ArticleContent,
+        ba.Article_Picture_Url as ArticlePictureUrl,
+        ba.Article_Summary as ArticleSummary,
+        ba.Article_Tag as ArticleTag,
+        ba.Article_UpdateTime as ArticleUpdateTime,
+        ba.Article_CreateTime as ArticleCreateTime,
+        ba.Article_Status_Id as ArticleStatusId,
+        bs.Status_Desc as StatusDesc
+
+        from blog_article ba left join blog_status bs on ba.Article_Status_Id = bs.Status_Id
+    </select>
+
+    <select id="findArticleById" resultType="com.wl.blog.pojo.BlogArticle" parameterType="int">
+        select ba.Article_Id as ArticleId,
+        ba.Article_Code as ArticleCode,
+        ba.Article_Name as ArticleName,
+        ba.Article_Category_Id as ArticleCategoryId,
+        ba.Article_Picture_Id as ArticlePictureId,
+        ba.Article_Content as ArticleContent,
+        ba.Article_Picture_Url as ArticlePictureUrl,
+        ba.Article_Summary as ArticleSummary,
+        ba.Article_Tag as ArticleTag,
+        ba.Article_UpdateTime as ArticleUpdateTime,
+        ba.Article_CreateTime as ArticleCreateTime,
+        ba.Article_Status_Id as ArticleStatusId,
+        bs.Status_Desc as StatusDesc
+        from blog_article ba left join blog_status bs on ba.Article_Status_Id = bs.Status_Id
+        where
+        ba.Article_Id = #{id}
+
+    </select>
+
+    <insert id="createArticle" parameterType="com.wl.blog.pojo.BlogArticle">
+        insert into blog_article(Article_Code ,
+        Article_Name ,
+        Article_Category_Id,
+        Article_Picture_Id,
+        Article_Content,
+        Article_Picture_Url,
+        Article_Summary,
+        Article_Tag,
+        Article_UpdateTime,
+        Article_CreateTime,
+        Article_Status_Id
+        ) values
+        (#{ArticleCode},#{ArticleName},#{ArticleCategoryId},#{ArticlePictureId},#{ArticleContent},#{ArticlePictureUrl},#{ArticleSummary}
+        ,#{ArticleTag},#{ArticleUpdateTime},#{ArticleCreateTime},#{ArticleStatusId});
+    </insert>
+
+
+    <select id="findByPager" resultType="com.wl.blog.pojo.BlogArticle">
+        select ba.Article_Id as ArticleId,
+        ba.Article_Code as ArticleCode,
+        ba.Article_Name as ArticleName,
+        ba.Article_Category_Id as ArticleCategoryId,
+        ba.Article_Picture_Id as ArticlePictureId,
+        ba.Article_Content as ArticleContent,
+        ba.Article_Picture_Url as ArticlePictureUrl,
+        ba.Article_Summary as ArticleSummary,
+        ba.Article_Tag as ArticleTag,
+        ba.Article_UpdateTime as ArticleUpdateTime,
+        ba.Article_CreateTime as ArticleCreateTime,
+        ba.Article_Status_Id as ArticleStatusId,
+        bs.Status_Desc as StatusDesc
+        from blog_article ba left join blog_status bs on ba.Article_Status_Id = bs.Status_Id
+        order by ba.Article_Id desc
+        limit #{page},#{size}
+    </select>
+    <select id="count" resultType="long">
+        select count(1) from blog_article
+    </select>
+</mapper>

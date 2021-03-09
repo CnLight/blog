@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" th:href="@{/img/icons/icon-48x48.png}"/>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/simplemde.min.css}">
+    <link rel="stylesheet" th:href="@{/css/layer.css}">
+</head>
+
+<body>
+<div class="wrapper">
+    <!--sidebar插入-->
+    <div th:insert="~{admin :: sidebar}"></div>
+    <div class="main">
+        <!-- 头部插入-->
+        <div th:insert="~{admin :: top}"></div>
+        <div class="row">
+            <h1></h1>
+        </div>
+        <form id="articleFrom" class="form-horizontal">
+            <input type="hidden" id="articleContent" name="articleContent">
+            <input type="hidden" id="articleContentMd" name="articleContentMd">
+            <input type="hidden" id="ArticleStatusId" name="ArticleStatusId">
+            <input type="hidden" id="articlePost" name="articlePost" value="post">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="tile">
+                        <div class="table-responsive">
+                            <div class="form-group">
+                                <input class="form-control" name="ArticleName" id="ArticleName" type="text"
+                                       placeholder="输入文章标题">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" name="ArticleCode" id="ArticleCode" type="text"
+                                       placeholder="生成code">
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" id="articleMd"></textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="tile">
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">文章类型:</label>
+                            <div class="col-md-9">
+                                <select id="ArticleCategoryId" name="ArticleCategoryId" class="form-control"
+                                        th:onchange="findTagByCategoryId()">
+                                    <div th:each="category:${allArticleCategories}">
+                                        <option th:text="${category.getCategoryName()}"
+                                                th:value="${category.getCategoryId()}"></option>
+                                    </div>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">文章标签:</label>
+                            <div class="col-md-9">
+                                <select id="ArticleTag" name="ArticleTag" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">开启评论:</label>
+                            <div class="col-md-9">
+                                <select name="articleComment" class="form-control">
+                                    <optgroup label="请选择">
+                                        <option value="0">是</option>
+                                        <option value="1">否</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">文章摘要:</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="articleSummary" placeholder="如果为空则自动生成摘要"
+                                          rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="tile-footer">
+                            <button class="btn btn-sm btn-outline-secondary" onclick="save(1)"
+                                    type="button">保存草稿
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary pull-right" onclick="save(2)" type="button">
+                                发布文章
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script th:src="@{/js/app.js}"></script>
+    <script th:src="@{/js/simplemde.min.js}"></script>
+    <script th:src="@{/js/layer.js}"></script>
+    <script th:src="@{/js/select2.min.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script
+            src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script
+            src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
+
+    <script type="text/javascript">
+        var simplemde = new SimpleMDE({
+            element: document.getElementById("articleMd"),
+            //如果设置为true，则强制下载Font Awesome（用于图标）。如果设置为false，则阻止下载。默认为undefined，将智能检查是否已包含Font Awesome，然后相应下载。
+            autoDownloadFontAwesome: false,
+            //如果设置为true，则自动对焦编辑器。默认为false。
+            autofocus: true,
+            //自动保存
+            autosave: {
+                //如果设置为true，则自动保存文本。默认为false。
+                enabled: true,
+                //保存之间的延迟，以毫秒为单位。默认为10000（10s）。
+                delay: 5000,
+                //您必须设置唯一的字符串标识符，以便SimpleMDE可以自动保存。将此与您网站上其他地方的SimpleMDE实例区分开来的东西。
+                uniqueId: "editor-1"
+            },
+            //调整预览期间解析Markdown的设置
+            renderingConfig: {
+                ///如果设置为true，将使用highlight.js突出显示
+                codeSyntaxHighlighting: true
+            },
+            //要显示的图标名称数组。可用于显示默认隐藏的特定图标，而无需完全自定义工具栏。
+            showIcons: ["code", "table", "clean-block", "horizontal-rule", 'link', 'image'],
+            //如果设置，则自定义选项卡大小。默认为2。
+            tabSize: 4,
+        });
+
+        //保存文章
+        function save(ArticleStatusId) {
+            var contentMd = simplemde.value();
+            if (contentMd != "") {
+                $("#articleContentMd").val(contentMd);
+                $("#articleContent").val(simplemde.markdown(contentMd));
+                $("#ArticleStatusId").val(ArticleStatusId);
+                var obj = $("#articleFrom").serialize();
+                alert(obj)
+                $.ajax({
+                    type: "post",
+                    url: "/article/saveArticle",
+                    data: obj,
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.flag == true) {
+                            simplemde.toTextArea();
+                            simplemde = null;
+                        } else {
+                            alert("error");
+                        }
+                    }
+                });
+            } else {
+                alert("error")
+            }
+        }
+
+        //根据categoryId 查询tags
+        function findTagByCategoryId() {
+            let options = $("#ArticleCategoryId option:selected"); //获取选中的option
+            let id = options.val(); //拿到选中项的值
+            let data = "id=" + id;
+            $.ajax({
+                type: "post",
+                url: "/article/findTag",
+                data: data,
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    let jsonObj = data;
+                    let jsonList = jsonObj.tags[0];
+                    let str = "";
+                    for (let i = 0; i < jsonList.length; i++) {
+                        // <option value="1">标签1</option>
+                        str += "<option value=" + jsonList[i].TagId + ">" + jsonList[i].TagDesc + "</option>";
+                    }
+                    $("#ArticleTag").html(str);
+                }
+            })
+
+        }
+    </script>
+</body>
+</html>

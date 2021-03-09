@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{link :: headLink}"></div>
+<body>
+<div th:replace="~{header :: header1}"></div>
+<!-- Hero Section-->
+<section style="background: url(/img/blog-post-3.jpeg); background-size: cover; background-position: center center"
+         class="hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7">
+                <h1>今天又是充满希望的一天</h1><a th:href="@{/admin}" class="hero-link">跳转后台</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- JavaScript files-->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/vendor/jquery.cookie/jquery.cookie.js}"></script>
+<script th:src="@{/vendor/fancyapp/jquery.fancybox.min.js}"></script>
+<script th:src="@{/js/front.js}"></script>
+</body>
+</html>

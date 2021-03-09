@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" th:href="@{/img/icons/icon-48x48.png}"/>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+
+<body>
+<div class="wrapper">
+    <!--sidebar插入-->
+    <div th:insert="~{admin :: sidebar}"></div>
+    <div class="main">
+        <!-- 头部插入-->
+        <div th:insert="~{admin :: top}"></div>
+
+        <main class="content">
+            <div class="container-fluid p-0">
+
+                <div class="row mb-2 mb-xl-3">
+                    <div class="col-auto d-none d-sm-block">
+                        <h3><strong>文章分类</strong></h3>
+                    </div>
+
+                    <div class="col-auto ml-auto text-right mt-n1">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
+                                <li class="breadcrumb-item"><a th:href="@{/article/toAddCatalog}">增加目录</a></li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-xl-12">
+                        <div class="card">
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>目录ID</th>
+                                    <th style="width:25%">编码</th>
+                                    <th class="d-none d-md-table-cell" style="width:25%">类型</th>
+                                    <th>名称</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="catalog : ${catalogs}">
+                                    <td id="user_id" th:text="${catalog.getUser_id()}"></td>
+                                    <td th:text="${catalog.getUser_email()}"></td>
+                                    <td th:text="${catalog.getUser_name()}"></td>
+                                    <td th:text="${catalog.getUser_pwd()}"></td>
+                                    <td>
+                                        <a th:href="@{/article/toUpdateCatalog/}+${blogUser.getUser_id()}">
+                                            <button th:text="修改" class="btn btn-success"></button>
+                                        </a>
+                                        <a th:href="@{/article/deleteCatalog/}+${blogUser.getUser_id()}">
+                                            <button th:text="删除" class="btn btn-success"></button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script th:src="@{/js/vendor.js}"></script>
+    <script th:src="@{/js/app.js}"></script>
+</body>
+
+</html>

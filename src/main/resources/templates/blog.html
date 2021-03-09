@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<div th:replace="~{link :: headLink}"></div>
+<body>
+<div th:replace="header :: header1"></div>
+
+<br/>
+
+<div class="main-content index-page clearfix">
+    <div class="post-lists">
+        <div class="post-lists-body">
+            <div class="post-list-item" th:each="article : ${pager.getRows()}">
+                <div class="post-list-item-container">
+                    <div class="item-thumb bg-deepgrey"
+                         th:style="'background-image:url('+@{${article.getArticlePictureUrl()}}+');'"
+                         th:href="@{/article/post/}+${article.getArticleId()}">
+                    </div>
+                    <div class="item-desc">
+                        <a th:text="${article.articleSummary}"
+                           th:href="@{/article/post/}+${article.getArticleId()}"></a>
+                    </div>
+                    <div class="item-label">
+                        <a th:text="${article.getArticleName()}"
+                           th:href="@{/article/post/}+${article.getArticleId()}"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div align="center" style="bottom: 0px;">
+    <a th:if="${pager.getLastPage()} ge 1" role="button" class="btn btn-default" style="background-color: #85b4f2"
+       th:text="上一页" th:href="@{/toBlog}+'?pageNum='+${pager.getLastPage()} "></a>
+    <a th:if="${pager.getNextPage()} le ${pager.getTotalPage()}" role="button" class="btn btn-default"
+       style="background-color: #d1cdc5" th:text="下一页" th:href="@{/toBlog}+'?pageNum='+${pager.getNextPage()}"></a>
+</div>
+
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/vendor/jquery.cookie/jquery.cookie.js}"></script>
+<script th:src="@{/vendor/fancyapp/jquery.fancybox.min.js}"></script>
+<script th:src="@{/js/front.js}"></script>
+
+</div>
+</body>
+</html>
