@@ -1,16 +1,12 @@
 package com.wl.blog.controller.admin;
 
-import cn.hutool.json.JSONObject;
 import com.wl.blog.pojo.BlogArticle;
 import com.wl.blog.pojo.Pager;
 import com.wl.blog.service.admin.ArticleService;
-import com.wl.blog.service.admin.PictureService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -35,7 +31,6 @@ public class BlogLoginController {
 
     @RequestMapping("/toBlog")
     public String list(Model model, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam(value = "pageSize", defaultValue = "3") int pageSize) {
-        System.out.println("============================");
         Pager pager = articleService.findByPager(pageNum, pageSize);
         System.out.println("当前页是：" + pageNum);
         pager.setCurrentPage(pageNum);

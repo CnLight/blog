@@ -8,6 +8,7 @@ import com.wl.blog.pojo.BlogArticle;
 import com.wl.blog.pojo.BlogTag;
 import com.wl.blog.pojo.Picture;
 import com.wl.blog.service.admin.ArticleService;
+import com.wl.blog.service.admin.ContentService;
 import com.wl.blog.service.admin.PictureService;
 import com.wl.blog.service.admin.UserService;
 import org.junit.jupiter.api.Test;
@@ -25,20 +26,15 @@ import java.util.Map;
 
 @SpringBootTest
 class BlogApplicationTests {
-    @Autowired
-    public ArticleService articleService;
-    @Autowired
-    public PictureService pictureService;
-    @Resource
-    TagMapper tagMapper;
+ @Autowired
+    ContentService contentService;
 
     @Test
-    void contextLoads() throws ParseException {
+    void contextLoads() throws Exception {
 
-        DateTime currentTime = DateUtil.date();
-        System.out.println(currentTime.toString());
-        List<BlogTag> tags = tagMapper.findTagsByCategoryId(4);
-        System.out.println(tags.toString());
+//    contentService.addPage("java");
+        List<Map<String, Object>> java = contentService.searchPageAll("java");
+        System.out.println(java);
     }
 
 }
