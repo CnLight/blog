@@ -142,7 +142,6 @@
                 $("#articleContent").val(simplemde.markdown(contentMd));
                 $("#ArticleStatusId").val(ArticleStatusId);
                 var obj = $("#articleFrom").serialize();
-                alert(obj)
                 $.ajax({
                     type: "post",
                     url: "/article/saveArticle",

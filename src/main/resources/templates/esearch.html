@@ -57,6 +57,7 @@
                                     <label cla=ss"layui-form-label"></label>
                                     <div class="layui-form-item">
                                         <button class="layui-btn" lay-submit="" lay-filter="demo2" onclick="findPage()">查询</button>
+                                        <button class="layui-btn" lay-submit="" lay-filter="demo2" onclick="addPage()">爬取数据</button>
                                     </div>
                                 </div>
                             </div>
@@ -83,10 +84,12 @@
     function dealTable(){
         layui.use('table', function(){
             let articleName  = $("#articleName").val();
+            let articleContent = $("#articleContent").val();
+            let param = "articleName="+articleName+"&"+"articleContent="+articleContent;
             let table = layui.table;
             table.render({
                 elem: '#test'
-                ,url: '/searchLayui/'+articleName
+                ,url: '/searchLayui/'+param
                 ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
                 ,cols: [[
                     {field: 'articleName', title: '文章名称', width:400}
@@ -98,10 +101,12 @@
                 ,limit: 10  //一页显示10条数据
                 ,parseData: function(res) { //将原始数据解析成 table 组件所规定的数据，res为从url中get到的数据
                     let result;
-                    if (this.page.curr) {
-                        result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
-                    } else {
-                        result = res.data.slice(0, this.limit);
+                    if(res.data!=null) {
+                        if (this.page.curr) {
+                            result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
+                        } else {
+                            result = res.data.slice(0, this.limit);
+                        }
                     }
                     return {
                         "code": res.code, //解析接口状态
@@ -118,7 +123,16 @@
     function findPage(){
         dealTable();
     }
+    function addPage(){
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.open({
+                type: 2,
+                content: 'http://www.baidu.com' //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+            });
 
+        });
+    }
 
 </script>
 

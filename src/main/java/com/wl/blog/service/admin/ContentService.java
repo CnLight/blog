@@ -3,6 +3,7 @@ package com.wl.blog.service.admin;
 import com.alibaba.fastjson.JSON;
 import com.wl.blog.pojo.BlogArticle;
 import com.wl.blog.util.HtmlUtil;
+import com.wl.blog.util.StringUtil;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -13,8 +14,10 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.text.Text;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.index.query.TypeQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
@@ -80,27 +83,17 @@ public class ContentService {
     }
 
     //实现搜索功能
-    public List<Map<String,Object>> searchPage (String keywords ,int pageNo , int pageSize,int pageFlag) throws IOException {
+    public List<Map<String,Object>> searchPage (String keywords ,int pageNo , int pageSize) throws IOException {
 
         if(pageNo<=1){
             pageNo =1;
         }
-        //
-/*        SearchTemplateRequest request = new SearchTemplateRequest();
-        request.setRequest(new SearchRequest("posts"));
 
-        request.setScriptType(ScriptType.INLINE);
-        request.setScript(
-                "{" +
-                        "  \"query\": { \"match\" : { \"{{field}}\" : \"{{value}}\" } }," +
-                        "  \"size\" : \"{{size}}\"" +
-                        "}");
+            Map<String, String> valueByName = StringUtil.getValueByName(keywords);
+            String articleName = valueByName.get("articleName");
+            String articleContent = valueByName.get("articleContent");
 
-        Map<String, Object> scriptParams = new HashMap<>();
-        scriptParams.put("field", "title");
-        scriptParams.put("value", "elasticsearch");
-        scriptParams.put("size", 5);
-        request.setScriptParams(scriptParams);*/
+
         //条件搜索
         SearchRequest searchRequest = new SearchRequest("csdn");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -110,10 +103,18 @@ public class ContentService {
         searchSourceBuilder.size(pageSize);
 
         //精确匹配
-        TermQueryBuilder termQueryBuilder1 = QueryBuilders.termQuery("articleName",keywords);
+   /*     TermQueryBuilder termQueryBuilder1 = QueryBuilders.termQuery("articleName",articleName);
         TermQueryBuilder termQueryBuilder2 = QueryBuilders.termQuery("articleContent", articleContent);
         searchSourceBuilder.query(termQueryBuilder1);
-        searchSourceBuilder.query(termQueryBuilder2);
+        searchSourceBuilder.query(termQueryBuilder2);*/
+        //先构造bool
+        BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
+        //must链接条件, should可以查询多个值
+        BoolQueryBuilder typeQueryBuilder = new BoolQueryBuilder();
+        boolQueryBuilder.must(typeQueryBuilder.should(QueryBuilders.termQuery("articleName",articleName)).should(
+                QueryBuilders.termQuery("articleContent",articleContent)
+        ));
+        searchSourceBuilder.query(boolQueryBuilder);
         searchSourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
 
 
@@ -158,7 +159,7 @@ public class ContentService {
     //转换为表格数据的接口
     //实现搜索功能
     public List<Map<String,Object>> searchPageAll (String keywords ) throws IOException {
-         return   this.searchPage(keywords,1,100,0);
+         return   this.searchPage(keywords,1,9000);
 
     }
 

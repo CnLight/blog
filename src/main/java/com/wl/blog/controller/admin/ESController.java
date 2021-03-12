@@ -36,15 +36,15 @@ public class ESController {
     @ResponseBody
     public List<Map<String,Object>> search(@PathVariable String keywords , @PathVariable int pageNo ,
                                            @PathVariable int pageSize) throws IOException {
-        return   contentService.searchPage(keywords, pageNo, pageSize,0);
+        return   contentService.searchPage(keywords, pageNo, pageSize);
     }
 
     @GetMapping("/searchLayui/{keywords}")
     @ResponseBody
-    public JSONObject searchByLayUI(@PathVariable String keywords ) throws Exception {
+        public JSONObject searchByLayUI(@PathVariable String keywords ) throws Exception {
 
-        return LayUITableData.TransDataToLayUITable(contentService.searchPageAll(keywords));
-    }
+            return LayUITableData.TransDataToLayUITable(contentService.searchPageAll(keywords));
+        }
 
     @RequestMapping("/toSearch")
     public String toSearch(){

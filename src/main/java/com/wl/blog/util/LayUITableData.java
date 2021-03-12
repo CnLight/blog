@@ -27,7 +27,7 @@ public class LayUITableData {
         else
         {
             jsonObject.put("code",404);
-            jsonObject.put("msg","失败");
+            jsonObject.put("msg","数据搜索失败请给出查询条件");
             jsonObject.put("count",list.size());
             jsonObject.put("data",null);
         }
