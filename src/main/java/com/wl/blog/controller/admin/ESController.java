@@ -4,10 +4,7 @@ import com.wl.blog.service.admin.ContentService;
 import com.wl.blog.util.LayUITableData;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -25,10 +22,10 @@ import java.util.Map;
 public class ESController {
     @Resource
     private ContentService contentService;
-    @GetMapping("/parse/{keywords}")
+    @RequestMapping("/parse")
     @ResponseBody
-    public boolean parse(@PathVariable String keywords) throws Exception {
-        return contentService.addPage(keywords);
+    public JSONObject parse(@RequestBody JSONObject jsonObject) throws Exception {
+        return contentService.addPage(jsonObject.getString("keywords"));
     }
 
 
@@ -59,5 +56,9 @@ public class ESController {
 
         return "";
 
+    }
+    @RequestMapping("/toesAdd")
+    public String toEsAdd(){
+        return "esadd";
     }
 }

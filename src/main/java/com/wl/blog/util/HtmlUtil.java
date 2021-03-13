@@ -45,7 +45,6 @@ public class HtmlUtil {
             String title = oneJsonObject.get("title").toString();
             String body = oneJsonObject.get("body").toString();
             String oneUrl = oneJsonObject.get("url").toString();
-            String nickname = oneJsonObject.get("nickname").toString();
             BlogArticle blogArticle = new BlogArticle();
             blogArticle.setArticleName(title);
             blogArticle.setArticleContent(body);
@@ -61,8 +60,11 @@ public class HtmlUtil {
     //返回一个jsonData  Page的总数
     public  int findAllPageNum(String keywords, int pageNum) throws Exception {
         JSONObject bodyData = this.findBodyData(keywords, pageNum);
-        Integer total_page = bodyData.getInteger("total_page");
-        return total_page;
+        Object pageList = bodyData.get("page_list");
+        JSONArray pageArr  =JSONArray.parseArray(pageList.toString());
+        int pageAllNum = (int) pageArr.get(5);
+        int pageSize = bodyData.getInteger("page_size");
+        return pageAllNum*pageSize;
 
     }
 

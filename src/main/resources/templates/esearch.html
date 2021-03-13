@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>Layui</title>
+    <title>csdn爬虫数据管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -15,16 +15,9 @@
 <body>
 
 <ul class="layui-nav">
-    <li class="layui-nav-item"><a href="">数据爬取</a></li>
     <li class="layui-nav-item layui-this">
         <a href="javascript:;">数据管理<span class="layui-nav-more"></span></a>
-        <dl class="layui-nav-child">
-            <dd><a href="">数据风格</a></dd>
-            <dd><a href="">主题管理</a></dd>
-            <dd><a href="">链接管理</a></dd>
-        </dl>
     </li>
-    <li class="layui-nav-item"><a th:href="@{/test}">后台管理</a></li>
 </ul>
 
 <div class="layui-container">
@@ -128,11 +121,25 @@
             var layer = layui.layer;
             layer.open({
                 type: 2,
-                content: 'http://www.baidu.com' //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                title:'导入数据',
+                maxmin: true,
+                shadeClose: true, //点击遮罩关闭层
+                area : ['800px' , '520px'],
+                content: '/toesAdd' //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
             });
 
         });
     }
+    $('#parentIframe').on('click', function(){
+        layer.open({
+            type: 2,
+            title: 'iframe父子操作',
+            maxmin: true,
+            shadeClose: true, //点击遮罩关闭层
+            area : ['800px' , '520px'],
+            content: 'test/iframe.html'
+        });
+    });
 
 </script>
 

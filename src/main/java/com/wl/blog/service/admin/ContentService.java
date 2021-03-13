@@ -1,6 +1,7 @@
 package com.wl.blog.service.admin;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.wl.blog.pojo.BlogArticle;
 import com.wl.blog.util.HtmlUtil;
 import com.wl.blog.util.StringUtil;
@@ -70,7 +71,7 @@ public class ContentService {
     }
 
     //实现多重插入
-    public boolean addPage(String keywords) throws Exception {
+    public JSONObject addPage(String keywords) throws Exception {
         HtmlUtil htmlUtil = new HtmlUtil();
         int allPageNum = htmlUtil.findAllPageNum(keywords, 1);
         int i = 1;
@@ -79,7 +80,9 @@ public class ContentService {
             if (aBoolean == true) i++;
             else break;
         }
-        return true;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("flag",true);
+        return jsonObject;
     }
 
     //实现搜索功能

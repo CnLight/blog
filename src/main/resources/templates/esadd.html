@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>Layui</title>
+    <title>爬取数据</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,19 +14,50 @@
 </head>
 <body>
 
-<ul class="layui-nav">
-    <li class="layui-nav-item"><a href="">数据爬取</a></li>
-    <li class="layui-nav-item layui-this">
-        <a href="javascript:;">数据管理<span class="layui-nav-more"></span></a>
-        <dl class="layui-nav-child">
-            <dd><a href="">数据风格</a></dd>
-            <dd><a href="">主题管理</a></dd>
-            <dd><a href="">链接管理</a></dd>
-        </dl>
-    </li>
-    <li class="layui-nav-item"><a th:href="@{/test}">后台管理</a></li>
-</ul>
+<div style="padding: 20px; background-color: #F2F2F2;">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">数据调试</div>
+                <div class="layui-card-body">
+                        <div class="layui-form-item">
 
+                            <div class="layui-input-inline">
+                                <input id= "keywords" type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+                            </div>
+                        </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-inline">
+                            <button class="layui-btn" lay-submit="" lay-filter="demo2" onclick="addData()">导入</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
+<script>
+    function addData(){
+        let jsonData = {"keywords":$("#keywords").val()};
+        $.ajax({
+            type:'post',
+            url:'parse',
+            data:JSON.stringify(jsonData),
+            async:false,
+            contentType: 'application/json;charset=UTF-8',
+            dataType:"json",
+            success : function (data){
+                if(data.flag)
+                {
+                 alert("操作成功")
+                }
+                else {
+                    alert("操作失败")
+                }
+            }
+        })
+    }
+</script>
 </html>
