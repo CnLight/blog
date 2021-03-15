@@ -11,6 +11,7 @@ import com.wl.blog.service.admin.ArticleService;
 import com.wl.blog.service.admin.ContentService;
 import com.wl.blog.service.admin.PictureService;
 import com.wl.blog.service.admin.UserService;
+import com.wl.blog.util.ParseDLPHtml;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,12 @@ import java.util.Map;
 class BlogApplicationTests {
  @Autowired
     ContentService contentService;
-
+@Autowired
+    ParseDLPHtml parseDLPHtml;
     @Test
     void contextLoads() throws Exception {
 
-//    contentService.addPage("java");
-        List<Map<String, Object>> java = contentService.searchPageAll("java");
-        System.out.println(java);
+        System.out.println(parseDLPHtml.searchPageAll("filename=xci").toString());
     }
 
 }

@@ -55,9 +55,9 @@ public class ContentService {
             e.printStackTrace();
         }
         BulkRequest bulkRequest = new BulkRequest();
-            bulkRequest.timeout("2s");
-            for (int i = 0; i< contents.size(); i++) {
-                bulkRequest.add(new IndexRequest("csdn").source(JSON.toJSONString(contents.get(i)), XContentType.JSON));
+                bulkRequest.timeout("2s");
+                for (int i = 0; i< contents.size(); i++) {
+                    bulkRequest.add(new IndexRequest("csdn").source(JSON.toJSONString(contents.get(i)), XContentType.JSON));
             }
         try {
             bulkResponse=  restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
@@ -165,6 +165,8 @@ public class ContentService {
          return   this.searchPage(keywords,1,9000);
 
     }
+
+
 
 
 }
